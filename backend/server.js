@@ -8,9 +8,21 @@ dotenv.config();
 
 const app = express();
 
+// ✅ Allow CORS only from Vercel frontend
+const allowedOrigins = ['https://car-wash-reminder.vercel.app'];
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true
+}));
+
 // Middleware
 app.use(express.json());
-app.use(cors());
 
 // Register Mongoose Models
 require("./models/customer");
@@ -20,6 +32,7 @@ const Reminder = require("./models/reminder");
 const dashboardRoutes = require('./routes/dashboard');
 const customerRoutes = require("./routes/customerRoutes");
 const reminderRoutes = require("./routes/reminderRoutes");
+
 app.use('/api/dashboard', dashboardRoutes);
 app.use("/api/reminders", reminderRoutes);
 app.use("/api/customers", customerRoutes);
