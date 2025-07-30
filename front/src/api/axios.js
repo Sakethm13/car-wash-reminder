@@ -1,6 +1,7 @@
-// front/src/api/axios.js
 import axios from 'axios';
 
-export default axios.create({
-  baseURL: "http://localhost:5000/api",
+const instance = axios.create({
+  baseURL: import.meta.env.VITE_API_BASE_URL,
 });
+
+export default instance;
