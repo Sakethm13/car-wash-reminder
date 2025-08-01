@@ -8,8 +8,12 @@ dotenv.config();
 
 const app = express();
 
-// ✅ Allow CORS only from Vercel frontend
-const allowedOrigins = ['https://car-wash-reminder.vercel.app'];
+// ✅ Allow CORS from Vercel and Localhost for dev
+const allowedOrigins = [
+  'https://car-wash-reminder.vercel.app', // production
+  'http://localhost:5173',                // local dev
+];
+
 app.use(cors({
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.includes(origin)) {
